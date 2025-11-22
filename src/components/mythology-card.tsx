@@ -52,19 +52,29 @@ export function MythologyCard({ item, index, isSelected, isSaved = false, onSave
       console.log('Tıklanan karakter:', relatedItem.title);
       console.log('Mevcut karakter:', item.title);
       
+      // Get current and target indices for direction detection
+      const currentIndex = greekMythologyData.findIndex(char => char.id === item.id);
+      const targetIndex = greekMythologyData.findIndex(char => char.id === relatedId);
+      
+      // Determine direction based on positions
+      let direction: 'left' | 'right' = 'right';
+      if (currentIndex !== -1 && targetIndex !== -1) {
+        direction = targetIndex > currentIndex ? 'right' : 'left';
+      }
+      
       // Scroll to top smoothly
       window.scrollTo({ top: 0, behavior: 'smooth' });
       
-      // Trigger a custom event to notify parent component
+      // Trigger enhanced navigation event with direction
       const event = new CustomEvent('navigateToCharacter', { 
-        detail: { characterId: relatedId, character: relatedItem } 
+        detail: { characterId: relatedId, character: relatedItem, direction }
       });
       window.dispatchEvent(event);
       
       // Also update URL hash for better navigation
       window.location.hash = relatedId;
     }
-  }, [item.title]);
+  }, [item.title, item.id]);
 
   // Memoize related items to prevent unnecessary calculations
   const relatedItems = useMemo(() => {

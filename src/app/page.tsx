@@ -61,6 +61,8 @@ export default function Home() {
   const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>(null);
   const [showPopup, setShowPopup] = useState(false);
   const [popupCharacter, setPopupCharacter] = useState<MythologyItem | null>(null);
+  const [popupDirection, setPopupDirection] = useState<'left' | 'right' | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [savedCharacters, setSavedCharacters] = useState<Set<string>>(new Set());
 
   // Memoized filter function with performance optimizations
@@ -174,19 +176,50 @@ export default function Home() {
     setMounted(true);
   }, []);
 
-  // Handle character navigation from related figures
+  // Handle character navigation with enhanced transitions
+  const handleNavigateToCharacter = useCallback((characterId: string, character: MythologyItem, direction: 'left' | 'right' = 'right') => {
+    console.log('Navigating to character:', character.title, 'from direction:', direction);
+    
+    // Set transition state for smooth animation
+    setIsTransitioning(true);
+    setPopupDirection(direction);
+    
+    // Close current popup with animation
+    setTimeout(() => {
+      setShowPopup(false);
+      
+      // Open new popup after short delay
+      setTimeout(() => {
+        setPopupCharacter(character);
+        setSelectedCharacterId(characterId);
+        setShowPopup(true);
+        
+        // Update URL hash for better navigation
+        window.location.hash = characterId;
+        
+        // Reset transition state
+        setTimeout(() => {
+          setIsTransitioning(false);
+          setPopupDirection(null);
+        }, 300);
+      }, 150);
+    }, 200);
+  }, []);
+
+  // Handle character navigation from related figures with direction detection
   useEffect(() => {
     const handleNavigateEvent = (event: CustomEvent) => {
       const { characterId, character } = event.detail;
-      console.log('Event alındı:', character.title);
+      const currentIndex = greekMythologyData.findIndex(item => item.id === selectedCharacterId);
+      const targetIndex = greekMythologyData.findIndex(item => item.id === characterId);
       
-      // Popup'ı aç ve karakter bilgisini ayarla
-      setPopupCharacter(character);
-      setShowPopup(true);
-      setSelectedCharacterId(characterId);
+      // Determine direction based on current and target positions
+      let direction: 'left' | 'right' = 'right';
+      if (currentIndex !== -1 && targetIndex !== -1) {
+        direction = targetIndex > currentIndex ? 'right' : 'left';
+      }
       
-      // Scroll to top smoothly
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      handleNavigateToCharacter(characterId, character, direction);
     };
 
     // Add event listener
@@ -196,7 +229,7 @@ export default function Home() {
     return () => {
       window.removeEventListener('navigateToCharacter', handleNavigateEvent as EventListener);
     };
-  }, []); // Boş dependency array - sadece ilk kurulum
+  }, [selectedCharacterId, handleNavigateToCharacter]);
 
   // Handle URL hash for direct navigation
   useEffect(() => {
@@ -321,19 +354,78 @@ export default function Home() {
       {/* Scroll to Top Button */}
       <MemoizedScrollToTop />
       
-      {/* Character Popup */}
+      {/* Enhanced Character Popup with Directional Transitions */}
       {showPopup && popupCharacter && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border-4 border-amber-500/50">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute inset-0"
+          />
+          <motion.div
+            initial={{ 
+              opacity: 0, 
+              scale: 0.8,
+              x: popupDirection === 'left' ? -100 : popupDirection === 'right' ? 100 : 0,
+              className: popupDirection === 'left' ? 'character-popup-slide-left' : popupDirection === 'right' ? 'character-popup-slide-right' : 'character-popup-slide-center'
+            }}
+            animate={{ 
+              opacity: 1, 
+              scale: 1,
+              x: 0,
+              className: 'character-popup-enter-active'
+            }}
+            exit={{ 
+              opacity: 0, 
+              scale: 0.8,
+              x: popupDirection === 'left' ? -100 : popupDirection === 'right' ? 100 : 0,
+              className: 'character-popup-exit-active'
+            }}
+            transition={{ 
+              duration: 0.4,
+              ease: [0.25, 0.46, 0.45, 0.94]
+            }}
+            className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border-4 border-amber-500/50 relative"
+          >
+            {/* Transition Overlay */}
+            {isTransitioning && (
+              <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-blue-500/10 dark:from-purple-500/10 dark:to-blue-500/10 rounded-2xl animate-pulse popup-backdrop-enter-active" />
+            )}
+            
             {/* Header */}
-            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-6">
+            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-6 z-10">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {popupCharacter.title}
-                </h2>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full overflow-hidden">
+                    <OptimizedImage
+                      src={popupCharacter.image}
+                      alt={popupCharacter.title}
+                      width={48}
+                      height={48}
+                      className="object-cover"
+                      onError={() => {
+                        const target = document.querySelector(`img[src="${popupCharacter.image}"]`) as HTMLImageElement;
+                        if (target) target.src = '/logo.svg';
+                      }}
+                    />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {popupCharacter.title}
+                  </h2>
+                </div>
                 <button
-                  onClick={() => setShowPopup(false)}
-                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl font-bold"
+                  onClick={() => {
+                    setIsTransitioning(true);
+                    setPopupDirection('right');
+                    setTimeout(() => {
+                      setShowPopup(false);
+                      setIsTransitioning(false);
+                      setPopupDirection(null);
+                    }, 200);
+                  }}
+                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl font-bold transition-colors duration-200 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   ×
                 </button>
@@ -345,13 +437,15 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-6">
                 {/* Image */}
                 <div className="w-32 h-32 sm:w-40 sm:h-40 flex-shrink-0">
-                  <img
+                  <OptimizedImage
                     src={popupCharacter.image}
                     alt={popupCharacter.title}
-                    className="w-full h-full object-cover rounded-lg shadow-lg"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = '/logo.svg';
+                    width={160}
+                    height={160}
+                    className="rounded-lg shadow-lg"
+                    onError={() => {
+                      const target = document.querySelector(`img[src="${popupCharacter.image}"]`) as HTMLImageElement;
+                      if (target) target.src = '/logo.svg';
                     }}
                   />
                 </div>
@@ -397,8 +491,45 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-            </div>
-          </div>
+              
+              {/* Navigation Footer */}
+              <div className="sticky bottom-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4">
+                <div className="flex items-center justify-between">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    Karakter {greekMythologyData.findIndex(item => item.id === popupCharacter.id) + 1} / {greekMythologyData.length}
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        const currentIndex = greekMythologyData.findIndex(item => item.id === popupCharacter.id);
+                        if (currentIndex > 0) {
+                          const prevCharacter = greekMythologyData[currentIndex - 1];
+                          handleNavigateToCharacter(prevCharacter.id, prevCharacter, 'left');
+                        }
+                      }}
+                      disabled={greekMythologyData.findIndex(item => item.id === popupCharacter.id) === 0}
+                      className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 nav-button"
+                    >
+                      ← Önceki
+                    </button>
+                    <button
+                      onClick={() => {
+                        const currentIndex = greekMythologyData.findIndex(item => item.id === popupCharacter.id);
+                        if (currentIndex < greekMythologyData.length - 1) {
+                          const nextCharacter = greekMythologyData[currentIndex + 1];
+                          handleNavigateToCharacter(nextCharacter.id, nextCharacter, 'right');
+                        }
+                      }}
+                      disabled={greekMythologyData.findIndex(item => item.id === popupCharacter.id) === greekMythologyData.length - 1}
+                      className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 nav-button"
+                    >
+                      Sonraki →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
       )}
     </div>

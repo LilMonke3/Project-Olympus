@@ -7,7 +7,8 @@ import { LoadingCard, LoadingSpinner } from '@/components/loading';
 import { ScrollToTop } from '@/components/scroll-to-top';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
-import { greekMythologyData, MythologyItem } from '@/data/greek-mythology';
+import { greekMythologyData, MythologyItem, getCategoryLabel, getCategoryColor } from '@/data/greek-mythology';
+import { Badge } from '@/components/ui/badge';
 import { Sparkles, Mountain, Zap } from 'lucide-react';
 
 type Category = 'all' | 'god' | 'goddess' | 'hero' | 'creature' | 'story';
@@ -32,6 +33,8 @@ export default function Home() {
   const [filters, setFilters] = useState<FilterOptions>({ category: 'all', search: '' });
   const [mounted, setMounted] = useState(false);
   const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupCharacter, setPopupCharacter] = useState<MythologyItem | null>(null);
 
   // Memoized filter function
   const filteredItems = useMemo(() => {
@@ -111,7 +114,9 @@ export default function Home() {
       const { characterId, character } = event.detail;
       console.log('Event alındı:', character.title);
       
-      // Sadece tıklanan karakteri vurgula - filtreleme yapma
+      // Popup'ı aç ve karakter bilgisini ayarla
+      setPopupCharacter(character);
+      setShowPopup(true);
       setSelectedCharacterId(characterId);
       
       // Scroll to top smoothly
@@ -247,6 +252,87 @@ export default function Home() {
 
       {/* Scroll to Top Button */}
       <MemoizedScrollToTop />
+      
+      {/* Character Popup */}
+      {showPopup && popupCharacter && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border-4 border-amber-500/50">
+            {/* Header */}
+            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {popupCharacter.title}
+                </h2>
+                <button
+                  onClick={() => setShowPopup(false)}
+                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+            
+            {/* Content */}
+            <div className="p-6">
+              <div className="flex flex-col sm:flex-row gap-6">
+                {/* Image */}
+                <div className="w-32 h-32 sm:w-40 sm:h-40 flex-shrink-0">
+                  <img
+                    src={popupCharacter.image}
+                    alt={popupCharacter.title}
+                    className="w-full h-full object-cover rounded-lg shadow-lg"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = '/logo.svg';
+                    }}
+                  />
+                </div>
+                
+                {/* Info */}
+                <div className="flex-1 space-y-4">
+                  <div className="flex flex-wrap gap-2">
+                    <Badge className={`${getCategoryColor(popupCharacter.category)} px-3 py-1 text-sm font-medium`}>
+                      {getCategoryLabel(popupCharacter.category)}
+                    </Badge>
+                    {popupCharacter.attributes?.map((attr, idx) => (
+                      <Badge key={idx} variant="outline" className="text-xs">
+                        {attr}
+                      </Badge>
+                    ))}
+                  </div>
+                  
+                  <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
+                    {popupCharacter.description}
+                  </p>
+                  
+                  {popupCharacter.powers && (
+                    <div className="space-y-2">
+                      <h4 className="font-semibold text-gray-900 dark:text-white">Güçler</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {popupCharacter.powers.map((power, idx) => (
+                          <Badge key={idx} variant="secondary" className="text-xs">
+                            {power}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              {/* Full Story */}
+              <div className="mt-6">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Tam Hikaye</h3>
+                <div className="prose prose-sm max-w-none dark:prose-invert">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+                    {popupCharacter.fullStory}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -175,6 +175,193 @@ export const greekMythologyData: MythologyItem[] = [
     attributes: ['Savaş', 'Aşk', 'İhanet', 'Destan'],
     powers: ['Strateji', 'Kahramanlık', 'Tanrı müdahalesi'],
     related: ['achilles', 'hector', 'helen', 'odysseus']
+  },
+  {
+    id: 'hephaestus',
+    title: 'Hephaestus',
+    category: 'god',
+    description: 'Ateş, demircilik ve zanaatların tanrısı',
+    fullStory: 'Hephaestus, Zeus ve Hera\'nın oğludur. Ancak diğer tanrılardan farklı olarak çirkin ve topaldır. Doğduğunda annesi Hera, onun çirkinliğinden utanarak Olimpos\'tan atmıştır. Hephaestus, bir gün boyunca düşmüş ve denizin dibine çarpmıştır.\n\nDenizde Thetis ve Eurynome tarafından bulunmuş ve büyütülmüştür. Onlar, Hephaestus\'un demircilik yeteneğini keşfetmişler ve ona bir dökümhane kurmuşlardır. Hephaestus, burada tanrılar için silahlar, takılar ve zırhlar yapmaya başlamıştır.\n\nHephaestus, kendi demirci atölyesinde çalışır ve eserler yaratır. Olimpos tanrıları için yıldırım çakılları, altın sarayları ve çeşitli takılar yapar. Ayrıca, insanlara ateş ve demircilik sanatını öğretmiştir.\n\nEn ünlü eseri之一nden biri, Zeus\'un şimşekleri için yaptığı altın saraylardır. Bu saraylar, tanrıların silahları kadar güçlüdür ve korkutucudur.\n\nHephaestus, aynı zamanda otomatlar ve zırhlar yapar. Tanrıların atları, arabaları ve çeşitli mekanik aletler yaratır. Bu eserler, hem işlevsel hem de sanatsal değer taşır.\n\nHephaestus, Aphrodite ile evlidir. Ancak evliliği monogam olmaktan uzaktır. Aphrodite, Hephaistos\'un eserlerini takdirir ve onlara dalga geçer. Bu ilişkiden çok sayıda tanrı ve canavar dünyaya gelmiştir.\n\nHephaestus, diğer tanrılardan farklı olarak zeminde yaşar. O, insanlarla daha iyi anlaşır ve onların sorunlarına yardım eder. Onun demirci dükkanı, herkesin erişebileceği bir yerdir.\n\nHephaestus\'un sembolleri arasında çekiç, örs, demir örsü ve ateş bulunur. Roma mitolojisinde Vulcanus olarak bilinir ve ateş ve demircilik tanrısı olarak tapınılmıştır.',
+    image: '/hephaestus.jpg',
+    attributes: ['Ateş', 'Demircilik', 'Zanaat', 'Olimpos'],
+    powers: ['Ateş kontrolü', 'Demircilik', 'Süper güç', 'Yaratıcılık'],
+    related: ['zeus', 'hera', 'aphrodite', 'ares']
+  },
+  {
+    id: 'apollo',
+    title: 'Apollo',
+    category: 'god',
+    description: 'Güneş, müzik, kehanet ve sanatların tanrısı',
+    fullStory: 'Apollo, Zeus ve Leto\'nun oğlu, Artemis\'in ikiz kardeşidir. Delos Adası\'nda dünyaya gelmiştir. Doğum hikayesi oldukça dramatiktir. Hera, Leto\'nun çocuk doğurmasına izin vermemiştir. Leto, dokuz gün süren bir yolculuktan sonra Delos Adası\'nda sığınak bulmuştur.\n\nApollo, müzik, şiir, tıp ve kehanet tanrısıdır. Altın yayı ve gümüş okları vardır. Okları her zaman hedeflerini bulur ve korkunç sonuçlar doğurur.\n\nApollo, aynı zamanda güneş tanrısıdır. Her gün sabah doğduğunda gökyüzünü altın parlaklığıyla aydınlatır. Akşamları ise batarkan batı yolu izler.\n\nApollo, Delphi\'deki kehanet merkezini yönetir. İnsanlar geleceklerini öğrenmek için buraya gelirler ve Apollonun kahinleri aracılığıyla kehanetler yayınlar.\n\nApollo, sanatın koruyucusudur. Müzisyenler, şairler ve sanatçılar ona ilham verir. O, lir çalgısı olan kiti çalar ve insanların duygularını etkiler.\n\nApollo, aynı zamanda iyileştirici tanrısıdır. Tıbb bilgisine sahiptir ve hastalıkları iyileştirebilir. Plague tanrısı olarak kabul edilir ve insanlara musallar gönderir.\n\nApollo, Daphne adında bir nymph\'e aşık olmuştur. Ancak Daphne\'nin babası bir nehir tanrısıdır ve kızını korumak için Apollo\'yu bir kurban ister. Bu olay, Apollo\'yu derin bir acı vermiştir.\n\nApollo\'un sembolleri arasında güneş, lir çalgısı, ok ve defne bulunur. Roma mitolojisinde Apollo olarak bilinir.',
+    image: '/apollo.jpg',
+    attributes: ['Güneş', 'Müzik', 'Kehanet', 'Sanat', 'İyileştirme'],
+    powers: ['Güneş ışınları', 'Kehanet', 'Müzik yeteneği', 'İyileştirme', 'Okçuluk'],
+    related: ['zeus', 'artemis', 'let', 'artemis']
+  },
+  {
+    id: 'demeter',
+    title: 'Demeter',
+    category: 'goddess',
+    description: 'Tarım, bereket ve mevsimlerin tanrıçası',
+    fullStory: 'Demeter, Kronos ve Rhea\'nın kızı, Zeus, Poseidon ve Hades\'in kardeşidir. Tarım ve bereket tanrıçasıdır. İnsanların geçim kaynağı ve bereketinin koruyucusudur.\n\nDemeter, kızı Persephone\'yi çok sever. Persephone, güzel ve masum bir kızdır. Demeter, onu her yanından ayırmaz.\n\nDemeter, Persephone\'nin kaçırılması hikayesi en ünlü mitolojik hikayelerden biridir. Hades, Persephone\'ye aşık olmuş ve onu yeraltı dünyasına kaçırmıştır. Bu olay, Demeter\'i büyük bir keder bırakmıştır.\n\nPersephone kaçırıldıktan sonra Demeter, yas tutmuş ve dünyayı bereketsiz bırakmıştır. Tarlalar kurur, bitkiler solar ve insanlar açlıktan ölür. Bu kış, insanlığın sonunu tehdit etmiştir.\n\nZeus, duruma müdahale etmiştir. Hades\'in Persephone\'yi yanında olmasına izin verir, ancak kış aylarında yer yüzünde annesiyle olmasına izin verilir.\n\nBu düzenleme sayesinde, Persephone yılın altı ayını yeraltında, diğer altı ayını ise annesiyle yer yüzünde geçirir. Bu mevsim döngüsünü açıklayan en güzel mitolojik hikayedir.\n\nDemeter, tarım ve bereketin yanı sıra insanlığa da hizmet eder. İnsanlara tarım ekme, ekin biçme ve bereketli hasat nasıl yapacaklarını öğretir.\n\nDemeter\'in sembolleri arasında buğday, mısır, orak ve tarım bulunur. Roma mitolojisinde Ceres olarak bilinir.',
+    image: '/demeter.jpg',
+    attributes: ['Tarım', 'Bereket', 'Mevsimler', 'Anne'],
+    powers: ['Tarım kontrolü', 'Bereket', 'Mevsim değiştirme', 'Bitki yeteneği'],
+    related: ['zeus', 'poseidon', 'hades', 'persephone']
+  },
+  {
+    id: 'dionysus',
+    title: 'Dionysus',
+    category: 'god',
+    description: 'Şarap, eğlence, festival ve tiyatro tanrısı',
+    fullStory: 'Dionysus, Zeus\'un oğlu olarak kabul edilir, ancak aslında Persephone ile Hera\'nın evliliğinden doğmuştur. Bu karmaşık doğum, onun karakterini etkilemiştir.\n\nDionysus, şarap tanrısıdır. Asma üzümü ve şarap yapar. İnsanlara şarap, eğlence ve festival zevki verir. Ancak şarabın iki yüzü de vardır: sarhoşluk ve kaos.\n\nDionysus, asma üzümü takipçileri olan Satirler ve Mainadlar vardır. Bu kadınlar, dini ayinlerde önemli bir rol oynarlar.\n\nDionysus, tiyatronun da koruyucusudur. Tragedi ve komedi oyunlarında önemli bir rol oynar. Oyun yazarları ona ilham verir.\n\nDionysus, yaban hayvanları kontrol edebilir. Leoparlar, kaplanlar ve panterler onun hizmetindedir.\n\nDionysus, Hindistan\'dan şarap getirmiştir. Bu seyahat, farklı kültürleri tanımasına neden olmuştur.\n\nDionysus\'un sembolleri arasında asma üzümü, üzüm sopa, defne ve üzüm salkısı bulunur. Roma mitolojisinde Bacchus olarak bilinir.',
+    image: '/dionysus.jpg',
+    attributes: ['Şarap', 'Eğlence', 'Festival', 'Tiyatro', 'Yaban Hayvanlar'],
+    powers: ['Şarap yapımı', 'Eğlence', 'İnsanları kontrol etme', 'Yaban hayvan kontrolü'],
+    related: ['zeus', 'hera', 'sileni', 'maenads']
+  },
+  {
+    id: 'hermes',
+    title: 'Hermes',
+    category: 'god',
+    description: 'Haberleşme, ticaret, hırsızlar ve yolcuların tanrısı',
+    fullStory: 'Hermes, Zeus ve Maia\'nın oğludur. Habercilik ve ticaret tanrısıdır. Tanrıların habercisi olarak görev yapar.\n\nHermes, kanatlı sandaletler giyer ve kanatlı bir şapka takar. Bu şapka, onu hızlı ve çevik yapmasını sağlar.\n\nHermes, rüya tanrısıdır. İnsanlar arasında ticareti kolaylaştırır ve zenginleştirir.\n\nHermes, hırsızların koruyucusudur. Hırsızlar, ona saygılarını verir ve onları korur.\n\nHermes, yolcuların da koruyucusudur. Yolcuların güvenliğini sağlar ve onlara yol gösterir.\n\nHermes, uyku tanrısıdır. İnsanların rüyalarını yorumlar ve onlara mesajlar verir.\n\nHermes, ölümlerin ruhlarını yeraltı dünyasına götürür. Bu görevi, ruhların doğru yere gitmesini sağlar.\n\nHermes, sihirli bir çizme olan caduceus\'a sahiptir. Bu çizme, yılanların birbirine dönmesini sağlar.\n\nHermes\'in sembolleri arasında kanatlı sandalet, rüya, caduceus ve kanatlı ayakkabılar bulunur. Roma mitolojisinde Mercury olarak bilinir.',
+    image: '/hermes.jpg',
+    attributes: ['Haberleşme', 'Ticaret', 'Hırsızlık', 'Yolcular', 'Uyku'],
+    powers: ['Süper hız', 'Görünmezlik', 'Ruh yönetimi', 'Sihirli çizme'],
+    related: ['zeus', 'hera', 'apollo', 'athena']
+  },
+  {
+    id: 'persephone',
+    title: 'Persephone',
+    category: 'goddess',
+    description: 'Yeraltı dünyasının kraliçesi, bahar tanrıçası',
+    fullStory: 'Persephone, Demeter ve Zeus\'un kızıdır. Bahar ve yeniden doğuş tanrıçasıdır.\n\nPersephone, masum ve güzel bir kızdır. Annesi Demeter tarafından çok sevilmektedir.\n\nPersephone\'nin kaçırılması hikayesi, en ünlü mitolojik hikayelerden biridir. Hades, Persephone\'ye aşık olmuş ve onu yeraltı dünyasına kaçırmıştır.\n\nHades, Persephone\'yi yeraltı dünyasının kraliçesi yapmıştır. Persephone, Hades ile evlenmek zorunda kalmıştır.\n\nPersephone, yeraltı dünyasında yaşarken annesini çok özlemektedir. Bu ayrılık, onu derinden etkilemiştir.\n\nZeus, duruma müdahale etmiştir. Hades\'in Persephone\'yi yanında olmasına izin verir, ancak kış aylarında yer yüzünde annesiyle olmasına izin verilir.\n\nBu düzenleme sayesinde, Persephone yılın altı ayını yeraltında, diğer altı ayını ise annesiyle yer yüzünde geçirir. Bu mevsim döngüsünü açıklayan en güzel mitolojik hikayedir.\n\nPersephone, yeraltı dünyasında nar tanrıçasıdır. Narların yeniden doğuşunu ve bereketini simgeler. Yeraltı dünyasında nar ağaçları vardır.\n\nPersephone, sadece yeraltı dünyasının kraliçesi değil, aynı zamanda ölülerin kraliçesidir. Yeraltı dünyasında ruhların yargılanmasına da katılır.\n\nPersephone\'in sembolleri arasında nar, nar çiçeği, zambak ve yeraltı dünyası bulunur.',
+    image: '/persephone.jpg',
+    attributes: ['Yeraltı', 'Bahar', 'Kraliçe', 'Yeniden Doğuş', 'Nar'],
+    powers: ['Yeraltı kontrolü', 'Bitki yeteneği', 'Mevsim kontrolü', 'Ruh yargısı'],
+    related: ['demeter', 'zeus', 'hades', 'hades']
+  },
+  {
+    id: 'nike',
+    title: 'Nike',
+    category: 'goddess',
+    description: 'Zafer, başarı ve mücadele tanrıçası',
+    fullStory: 'Nike, zafer ve mücadele tanrıçasıdır. Zeus ve Styx nehrinin kızıdır.\n\nNike, zafer tanrıçası olarak tanrıların savaşlarında önemli bir rol oynar. O, savaşın sonucunu belirler ve kazanan tarafı ilan eder.\n\nNike, genellikle kanatlı bir kadın olarak tasvir edilir. Zaferi simgeleyen elinde tutar.\n\nNike, hızlı ve çeviktir. Savaş alanlarında hızla hareket eder ve zaferi getiren tarafa yönlendirir.\n\nNike, sadece savaşlarda değil, aynı zamanda spor müsabakalarında ve diğer yarışmalarda da zafer getiren tarafı destekler.\n\nNike, insanlara cesaret ve mücadele ruhu verir. Zorluk anında olanlara ilham verir.\n\nNike\'un sembolleri arasında zafer defnesi, zafer şeridi ve kanatlı sandaletler bulunur. Roma mitolojisinde Victoria olarak bilinir.',
+    image: '/nike.jpg',
+    attributes: ['Zafer', 'Başarı', 'Mücadele', 'Cesaret', 'Hız'],
+    powers: ['Zafer getirme', 'Hızlanma', 'Cesaret verici', 'Savaş yönlendirme'],
+    related: ['zeus', 'athena', 'ares', 'hermes']
+  },
+  {
+    id: 'eros',
+    title: 'Eros',
+    category: 'god',
+    description: 'Aşk, arzu ve tutku tanrısı',
+    fullStory: 'Eros, aşk ve arzu tanrısıdır. Genellikle kanatlı bir çocuk olarak veya genç bir adam olarak tasvir edilir.\n\nEros, altın oku ve altın yayı vardır. Bu oklar, aşkın kalbine isabet eder ve insanları birbirine aşık eder.\n\nEros, altın yayı kullandığında, insanları aşık ettiği kişiye aşık olmalarını sağlar. Bu oklar, sadece fiziksel değil, aynı zamanda duygusal bir bağ kurar.\n\nEros, oyunbazlı ve şakacı bir tanrıdır. Tanrıları ve insanlarıyla şakalar yapar.\n\nEros, insanların kalplerini okuyabilir. İnsanların düşüncelerini ve duygularını bilir.\n\nEros, sadece aşk tanrısı değil, aynı zamanda yaratılışın da bir parçasıdır. Kaos\'dan doğan ilk varlıklardan biri olarak kabul edilir.\n\nEros\'un sembolleri arasında altın ok, altın yay, kalp ve kanatlı çocuk bulunur. Roma mitolojisinde Cupid olarak bilinir.',
+    image: '/eros.jpg',
+    attributes: ['Aşk', 'Arzu', 'Tutku', 'Yaratılış', 'Kalp okuyucu'],
+    powers: ['Aşk oku', 'Kalp kontrolü', 'Arzu yayma', 'İnsanları kontrol etme', 'Yaratıcılık'],
+    related: ['aphrodite', 'hera', 'zeus', 'psyche']
+  },
+  {
+    id: 'psyche',
+    title: 'Psyche',
+    category: 'hero',
+    description: 'İnsan ruhu, aşk ve ölümsüzlük hikayesi kahramanı',
+    fullStory: 'Psyche, insan bir kızdır. Güzelliği o kadar tanrıçaların kıskançına neden olmuştur. Aphrodite, Psyche\'nin güzelliğinden kıskanarak onu zorlu görevler vermiştir.\n\nPsyche, Aphrodite\'in verdiği görevleri yerine getirmek için çaba gösterir. Bu görevler, imkansız ve tehlikeli görevlerdir.\n\nPsyche, en zor görevlerinden biri, Persephone\'nin güzellik kutusunu alıp Aphrodite\'ye vermektir. Psyche, kutuyu açmaya dayanamaz ve merak ederek içine bakar.\n\nBu hata, Aphrodite\'nin öfkesine neden olur ve Psyche\'yi terk eder.\n\nPsyche, çaresiz bir şekilde yolculuğa çıkar. İnsanlara yardım etmeye çalışır.\n\nPsyche, çeşitli zorluklarla karşılaşır. Bu zorluklar, onu daha güçlü ve bilgeç bir insan yapar.\n\nPsyche, sonunda Eros\'a ulaşır. Eros, ona yardım eder ve Aphrodite ile barışır.\n\nPsyche, ölümsüzlük kazanır ve tanrıçalar arasına yükselir. O, Eros ile evlenir ve tanrıça olur.\n\nPsyche\'in hikayesi, aşkın ve ölümsüzlüğün gücünü gösteren en güzel hikayelerden biridir.',
+    image: '/psyche.jpg',
+    attributes: ['İnsan ruhu', 'Aşk', 'Ölümsüzlük', 'Cesaret', 'Dayanıklılık'],
+    powers: ['Zihinsel güç', 'Dayanıklılık', 'Problem çözme', 'İrade'],
+    related: ['eros', 'aphrodite', 'hera', 'zeus']
+  },
+  {
+    id: 'orpheus',
+    title: 'Orpheus',
+    category: 'hero',
+    description: 'Müzisyen, şair ve ölüler dünyasına yolculuk hikayesi kahramanı',
+    fullStory: 'Orpheus, müzik ve şiir tanrısı Apollo\'nun oğludur. Lir çalgısı olan kiti çalar ve insanları etkiler.\n\nOrpheus, Eurydice adında bir nimfa ile evlenmiştir. Eurydice\'ye olan aşkı, onun için her şeydir.\n\nEurydice, yılan ısırığı nedeniyle ölür. Orpheus, karısı karşısında derin bir keder duyar.\n\nOrpheus, karısını geri getirmek için yeraltı dünyasına gitmeye karar verir. Hades\'in krallığına ulaşmaya çalışır.\n\nOrpheus, müziği ile Hades ve diğer yeraltı tanrılarını etkiler. Müziği, yeraltı dünyasında bile en acımasız tanrıları bile yumuşatır.\n\nOrpheus, müziği sayesinde Hades\'in iznini alır. Hades, Eurydice\'yi geri vermesi şartıyla Orpheus\'un arkasına dönmesine izin verir.\n\nAncak Orpheus, son anda arkasına döner ve Eurydice\'yi sonsuza kaybeder. Bu, müziğinin gücünün sınırlarını gösteren trajik bir hikayedir.\n\nOrpheus, hayatının geri kalanını müzik ve şiirle geçirir. Onun müziği ve şiirleri, insanları ağlatır.\n\nOrpheus\'un hikayesi, aşkın ve müziğin gücünü gösteren en dokunak hikayelerden biridir.',
+    image: '/orpheus.jpg',
+    attributes: ['Müzik', 'Şiir', 'Aşk', 'Yeraltı yolculuğu', 'Sadakat'],
+    powers: ['Müzikal yetenek', 'Sihirli müzik', 'Yeraltı etkisi', 'Ruhlara etki'],
+    related: ['apollo', 'eurydice', 'hades', 'hermes']
+  },
+  {
+    id: 'odysseus',
+    title: 'Odysseus',
+    category: 'hero',
+    description: 'Stratejist, akıllı ve uzun yolculuk destanı kahramanı',
+    fullStory: 'Odysseus, İthaca kralı, Truva Savaşı kahramanıdır. Akıllı ve zeki bir savaşçıdır.\n\nOdysseus, Truva Savaşı\'ndan sonra evine dönmek için 10 yıl süren zorlu bir yolculuk yapar.\n\nOdysseus, yolculuğu sırasında birçok zorlukla karşılaşır. Canavarlar, tanrıların öfkesi ve doğal tehliklerle mücadele eder.\n\nOdysseus, akıllılığı ve zekası sayesinde tüm zorlukları aşar. Cyclops Polyphemus, sirenlar, Scylla ve Charybdis gibi canavarlarla karşılaşır.\n\nOdysseus, aynı zamanda tanrılarla da ilişki kurar. Athena, ona yardım eder. Poseidon ise ona karşı çıkar.\n\nOdysseus, sonunda evine döner ve karısı Penelope ile tekrar bir araya gelir. O, evindeki suitörleri alt eder ve krallığını geri kazanır.\n\nOdysseus\'un hikayesi, akıllılığın, sabrının ve azminin gücünü gösteren en ünlü destanlardan biridir.',
+    image: '/odysseus.jpg',
+    attributes: ['Strateji', 'Akıllılık', 'Sabır', 'Azim', 'Liderlik'],
+    powers: ['Stratejik düşünme', 'Akıllıca plan yapma', 'Savaş stratejisi', 'Liderlik'],
+    related: ['penelope', 'athena', 'poseidon', 'telemachus']
+  },
+  {
+    id: 'atlas',
+    title: 'Atlas',
+    category: 'god',
+    description: 'Gökyüzünü taşıyan titan, dayanıklık ve astronomi tanrısı',
+    fullStory: 'Atlas, İapetos ve Klymene\'in oğlu, Titanlardan biridir. Zeus ve kardeşleriyle birlikte Kronos\'a karşı savaşta yer almıştır.\n\nTitanlar savaşını kaybedince Zeus, Atlas\'ı cezalandırmıştır. Atlas\'ın cezası, gökyüzünü sonsuza kadar taşımaktır.\n\nAtlas, batıdan doğan güneş ışınlarıyla omuzlarında gökyüzünü taşır. Bu görevi, her gün ağır bir şekilde yerine getirir.\n\nAtlas, dünyanın en batı ucunda durur. Buradan güneşin batışını ve yıldızların doğuşunu izler.\n\nAtlas, sadece gökyüzünü taşımakla kalmaz, aynı zamanda astronomi bilgilerine de sahiptir. Yıldızların hareketlerini ve mevsimlerini öngörür.\n\nAtlas, dayanıklık sembolüdür. Ağır bir yükü taşımak, onu sembolize eder.\n\nAtlas\'un sembolleri arasında gökyüzü, küre, dünya ve yıldızlar bulunur.',
+    image: '/atlas.jpg',
+    attributes: ['Gökyüzü', 'Dayanıklılık', 'Astronomi', 'Titan', 'Sonsuz yük'],
+    powers: ['Gökyüzü taşıma', 'Astronomi bilgisi', 'Süper güç', 'Dayanıklılık'],
+    related: ['prometheus', 'epimetheus', 'menoitius', 'helios']
+  },
+  {
+    id: 'prometheus',
+    title: 'Prometheus',
+    category: 'god',
+    description: 'Ateşi, insanlığın koruyucusu ve ilerleme tanrısı',
+    fullStory: 'Prometheus, İapetos ve Klymene\'in oğlu, Titanlardan biridir. İnsanlığın koruyucusu olarak bilinir.\n\nPrometheus, Zeus\'tan insanlara ateşi hediye etmiştir. Bu eylem, Zeus\'un öfkesine neden olmuştur.\n\nPrometheus, cezası olarak Kafkas Dağı\'na zincirlenir. Her gün bir kartal, onun karaciğini yer ve onun ciğerini yer.\n\nPrometheus, acı çekmeden bu cezayı çeker. Ancak bir gün Herkül gelip onu zincirlerini kırar ve onu kurtarır.\n\nPrometheus, insanlığa hizmet etmeye devam eder. İnsanlara zanaat, demircilik ve diğer sanatları öğretir.\n\nPrometheus\'un hikayesi, insanlığa hizmetin ve fedakarlığın en güzel örneklerinden biridir.',
+    image: '/prometheus.jpg',
+    attributes: ['Ateş', 'İnsanlık', 'İlerleme', 'Fedakarlık', 'Zeka'],
+    powers: ['Ateş kontrolü', 'İnsanlara yardım', 'İlerleme sağlama', 'Zeka'],
+    related: ['zeus', 'hera', 'epimetheus', 'mankind']
+  },
+  {
+    id: 'cronus',
+    title: 'Cronus (Kronos)',
+    category: 'god',
+    description: 'Zaman, hasret ve titanların kralı',
+    fullStory: 'Cronos (Kronos), Uranos ve Gaia\'nın oğlu, Titanlardan biridir. Zaman tanrısı olarak bilinir.\n\nCronos, babası Uranos\'u tahttan ederek kendini kral yapmıştır. Ancak bir kehanetle, kendi oğlundan biri tarafından tahttan edileceğini öğrenir.\n\nBu kehanet üzerine, Cronos, doğan tüm çocuklarını yutmaya başlar. Hera, Hades, Poseidon ve Zeus\'u yutar.\n\nRhea, bu durumdan endişeerek son çocuğu olan Zeus\'u gizlice kurtarır. Zeus, büyüyünce babasını yenerek Titanlara karşı savaş açar.\n\nCronos, zaman tanrısı olarak, geçmiş, şimdi ve geleceği kontrol eder. Zamanın doğrusunu düzenler.\n\nCronos, aynı zamanda hasretlidir. Geleceği öngörme yeteneğine sahiptir.\n\nCronos\'un sembolleri arasında zaman, saat, orak ve hasret çarkı bulunur.',
+    image: '/cronos.jpg',
+    attributes: ['Zaman', 'Hasret', 'Titan', 'Kraliyet', 'Gelecek'],
+    powers: ['Zaman kontrolü', 'Gelecek görme', 'Hasret', 'Kraliyet'],
+    related: ['zeus', 'hera', 'hades', 'poseidon', 'rhea']
+  },
+  {
+    id: 'rhea',
+    title: 'Rhea',
+    category: 'goddess',
+    description: 'Toprak tanrıçası, Titanların annesi ve annelik koruyucusu',
+    fullStory: 'Rhea, Uranos ve Gaia\'nın kızı, Titanlardan biridir. Toprak tanrıçası ve annelik koruyucusudur.\n\nRhea, Uranos\'un eşi ve Titanların annesidir. Kronos, Poseidon, Hades, Demeter, Hera ve Zeus\'un annesidir.\n\nRhea, kocasının çocuklarını yutmasına engel olmaya çalışmıştır. Ancak Kronos\'un gücü karşısında aciz kalmıştır.\n\nRhea, son çocuğu olan Zeus\'u kurtarmak için bir plan yapar. Kronos\'a bir bez sarılı bebek verir ve bunu yutturmasını sağlar.\n\nRhea, Zeus\'un güvenli bir şekilde büyümesini sağlar. Zeus, büyüyünce babasını devirebilecek güce ulaşır.\n\nRhea, annelik tanrıçasıdır. Doğum, doğum ve annelik süreçlerini korur.\n\nRhea, aynı zamanda doğurgan bir tanrıçadır. Yeni tanrıların ve kahramanların doğumuna yardım eder.\n\nRhea\'un sembolleri arasında toprak, bereket ve doğurgan bulunur.',
+    image: '/rhea.jpg',
+    attributes: ['Toprak', 'Anne', 'Koruyucu', 'Doğurgan', 'Titan'],
+    powers: ['Doğurgan', 'Anne koruması', 'Toprak bereketi', 'Yeni yaşam'],
+    related: ['zeus', 'hera', 'hades', 'poseidon', 'cronos', 'demeter']
+  },
+  {
+    id: 'gaia',
+    title: 'Gaia',
+    category: 'goddess',
+    description: 'Toprak ana, dünya tanrıçası ve tüm canlıların annesi',
+    fullStory: 'Gaia, ilk varlıklardan biridir. Kendiliğinden doğan ilk tanrıçadır.\n\nGaia, kendi kendisinden Uranos, Pontos ve Ourea doğurmuştur. Bu ilk tanrılar, göğü, denizi ve dünyayı temsil eder.\n\nGaia, Kronos, Rhea, Koios, Krios, Iapetos, Hyperion ve Oceanus\'un annesidir. Bu Titanlar, ilk tanrı neslini oluşturur.\n\nGaia, aynı zamanda canavarların, dağların ve diğer doğal varlıkların da annesidir.\n\nGaia, dünyanın ve üzerindeki tüm canlıların annesi olarak kabul edilir. O, canlıları korur ve besler.\n\nGaia, sadece yaratıcı değil, aynı zamanda adaletin de koruyucusudur. O, adalet dağıtır ve düzeni sağlar.\n\nGaia\'un sembolleri arasında dünya, bereket ve yaşam ağacı bulunur.',
+    image: '/gaia.jpg',
+    attributes: ['Toprak', 'Dünya', 'Anne', 'Yaratılış', 'Adalet', 'Canlılar'],
+    powers: ['Yaratılış', 'Canlı kontrolü', 'Doğal güçler', 'Adalet', 'Bereket'],
+    related: ['uranos', 'cronos', 'rhea', 'oceanus', 'titans']
+  },
+  {
+    id: 'uranus',
+    title: 'Uranus',
+    category: 'god',
+    description: 'Gökyüzü, gökyüzü tanrısı ve ilk tanrıların babası',
+    fullStory: 'Uranus, Gaia\'dan doğan ilk varlıklardan biridir. Gökyüzü tanrısı olarak bilinir.\n\nUranus, Gaia ile birlikte ilk tanrıları doğurmuştur. Bu ilk tanrılar, Olimpos\'tan önce dünyayı yönetmişlerdir.\n\nUranos, Gaia\'nın eşi olarak kabul edilir. Onun çocukları olan Titanlar, ilk tanrı neslini oluşturur.\n\nUranos, gökyüzünü kaplar ve yıldızları düzenler. Geceleri ve mevsimleri belirler.\n\nUranus, kehanet yeteneğine sahiptir. Geleceği öngörebilir.\n\nUranos, kendi oğullarından birinin kendisini tahttan edeceği kehaneti duyar. Bu kehanet, onu endişe sokar.\n\nUranus\'un sembolleri arasında gökyüzü, yıldızlar ve kehanet çarkı bulunur.',
+    image: '/uranus.jpg',
+    attributes: ['Gökyüzü', 'Kehanet', 'İlk tanrı', 'Baba', 'Zaman'],
+    powers: ['Gökyüzü kontrolü', 'Kehanet', 'Zaman yönetimi', 'Yıldız kontrolü'],
+    related: ['gaia', 'cronos', 'rhea', 'titans', 'helios']
   }
 ];
 

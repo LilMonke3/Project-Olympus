@@ -29,14 +29,7 @@ export function OptimizedImage({
   blurDataURL,
   onError
 }: OptimizedImageProps) {
-  const defaultBlurDataURL = `data:image/svg+xml;base64,${Buffer.from(
-    `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
-      <rect width="100%" height="100%" fill="#f3f4f6"/>
-      <text x="50%" y="50%" text-anchor="middle" dy=".3em" fill="#9ca3af" font-family="sans-serif" font-size="14">
-        Loading...
-      </text>
-    </svg>`
-  ).toString('base64')}`;
+  const defaultBlurDataURL = `data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOjIwMCIgaGVpZ2h0PSI0MCIgd2lkdGg9IjEwMCIgZmlsbD0iI2Y2ZjIiPg0KPHN2ZyB4aWR0aD0iMCIgZmlsbD0iI2Y2ZjIiPg0KPHRleHQgY3g9IjUwJiB5PSIwLjM0ZW0iIGZpbGw9IiMjIiMjIiPg0KPC9zdmc+`;
 
   return (
     <div className={`relative overflow-hidden ${className}`}>

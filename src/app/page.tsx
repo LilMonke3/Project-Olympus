@@ -31,6 +31,7 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(0);
   const [filters, setFilters] = useState<FilterOptions>({ category: 'all', search: '' });
   const [mounted, setMounted] = useState(false);
+  const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>(null);
 
   // Memoized filter function
   const filteredItems = useMemo(() => {
@@ -52,6 +53,9 @@ export default function Home() {
         item.powers?.some(power => power.toLowerCase().includes(searchLower))
       );
     }
+    
+    console.log('Filters:', filters);
+    console.log('Filtered items:', filtered);
     
     return filtered;
   }, [filters.category, filters.search]);
@@ -77,9 +81,15 @@ export default function Home() {
 
   // Reset items when filters change
   useEffect(() => {
+    console.log('Filters değişti, yeni items ayarlanıyor...');
+    console.log('Filtered items length:', filteredItems.length);
+    
     setItems([]);
     setCurrentPage(0);
+    
+    // İlk 3 item'ı göster (veya tümünü varsa)
     const initialItems = filteredItems.slice(0, ITEMS_PER_PAGE);
+    console.log('Initial items to show:', initialItems.map(item => item.title));
     setItems(initialItems);
   }, [filteredItems]);
 
@@ -99,16 +109,10 @@ export default function Home() {
   useEffect(() => {
     const handleNavigateEvent = (event: CustomEvent) => {
       const { characterId, character } = event.detail;
+      console.log('Event alındı:', character.title);
       
-      // Sadece tıklanan karakteri göster - diğer karakterleri etkileme
-      setFilters({
-        category: 'all',
-        search: character.title
-      });
-      
-      // Mevcut item'ları temizle
-      setItems([]);
-      setCurrentPage(0);
+      // Sadece tıklanan karakteri vurgula - filtreleme yapma
+      setSelectedCharacterId(characterId);
       
       // Scroll to top smoothly
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -129,15 +133,8 @@ export default function Home() {
     if (hash) {
       const character = greekMythologyData.find(item => item.id === hash);
       if (character) {
-        // Sadece bu karakteri göster
-        setFilters({
-          category: 'all',
-          search: character.title
-        });
-        
-        // Mevcut item'ları temizle
-        setItems([]);
-        setCurrentPage(0);
+        // Sadece bu karakteri vurgula
+        setSelectedCharacterId(hash);
       }
     }
   }, []); // Sadece ilk yüklemede çalışsın
@@ -197,7 +194,11 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
           {items.map((item, index) => (
             <div key={item.id} className="desktop-container">
-              <MemoizedMythologyCard item={item} index={index} />
+              <MemoizedMythologyCard 
+                item={item} 
+                index={index} 
+                isSelected={item.id === selectedCharacterId}
+              />
             </div>
           ))}
         </div>

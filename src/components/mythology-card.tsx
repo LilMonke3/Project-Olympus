@@ -13,9 +13,10 @@ import { ChevronDown, ChevronUp, Sparkles, Heart, Share2, Bookmark, ExternalLink
 interface MythologyCardProps {
   item: MythologyItem;
   index: number;
+  isSelected?: boolean;
 }
 
-export function MythologyCard({ item, index }: MythologyCardProps) {
+export function MythologyCard({ item, index, isSelected }: MythologyCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -37,6 +38,9 @@ export function MythologyCard({ item, index }: MythologyCardProps) {
   const handleRelatedClick = (relatedId: string) => {
     const relatedItem = greekMythologyData.find(char => char.id === relatedId);
     if (relatedItem) {
+      console.log('Tıklanan karakter:', relatedItem.title);
+      console.log('Mevcut karakter:', item.title);
+      
       // Scroll to top smoothly
       window.scrollTo({ top: 0, behavior: 'smooth' });
       
@@ -63,7 +67,9 @@ export function MythologyCard({ item, index }: MythologyCardProps) {
         stiffness: 100
       }}
       whileHover={{ y: -5 }}
-      className="mb-3 sm:mb-4 lg:mb-6 desktop-hover-lift"
+      className={`mb-3 sm:mb-4 lg:mb-6 desktop-hover-lift ${
+        isSelected ? 'ring-4 ring-amber-500 ring-opacity-50 scale-105' : ''
+      }`}
     >
       <Card className="w-full max-w-4xl mx-auto lg:max-w-5xl transition-all duration-600 hover:shadow-2xl bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border-0 shadow-lg overflow-hidden group desktop-card desktop-hover-glow">
         {/* Glassmorphism Header */}

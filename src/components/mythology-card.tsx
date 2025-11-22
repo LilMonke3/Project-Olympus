@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, memo, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { OptimizedImage } from '@/components/optimized-image';
 import { MythologyItem, getCategoryLabel, getCategoryColor, greekMythologyData } from '@/data/greek-mythology';
 import { ChevronDown, ChevronUp, Sparkles, Heart, Share2, Bookmark, ExternalLink } from 'lucide-react';
 
@@ -25,15 +26,17 @@ export function MythologyCard({ item, index, isSelected, isSaved = false, onSave
   const cardRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const handleLike = () => setIsLiked(!isLiked);
-  const handleBookmark = () => {
+  // Memoize event handlers to prevent unnecessary re-renders
+  const handleLike = useCallback(() => setIsLiked(!isLiked), [isLiked]);
+  const handleBookmark = useCallback(() => {
     const newBookmarkState = !isBookmarked;
     setIsBookmarked(newBookmarkState);
     if (onSaveCharacter) {
       onSaveCharacter(item.id);
     }
-  };
-  const handleShare = () => {
+  }, [isBookmarked, onSaveCharacter, item.id]);
+
+  const handleShare = useCallback(() => {
     if (navigator.share) {
       navigator.share({
         title: item.title,
@@ -41,9 +44,9 @@ export function MythologyCard({ item, index, isSelected, isSaved = false, onSave
         url: window.location.href
       });
     }
-  };
+  }, [item.title, item.description]);
 
-  const handleRelatedClick = (relatedId: string) => {
+  const handleRelatedClick = useCallback((relatedId: string) => {
     const relatedItem = greekMythologyData.find(char => char.id === relatedId);
     if (relatedItem) {
       console.log('Tıklanan karakter:', relatedItem.title);
@@ -61,20 +64,41 @@ export function MythologyCard({ item, index, isSelected, isSaved = false, onSave
       // Also update URL hash for better navigation
       window.location.hash = relatedId;
     }
-  };
+  }, [item.title]);
+
+  // Memoize related items to prevent unnecessary calculations
+  const relatedItems = useMemo(() => {
+    return item.related?.map(relatedId => {
+      const relatedItem = greekMythologyData.find(char => char.id === relatedId);
+      return relatedItem ? { id: relatedId, title: relatedId, item: relatedItem } : null;
+    }).filter(Boolean);
+  }, [item.related]);
+
+  // Memoize animation variants
+  const cardVariants = useMemo(() => ({
+    initial: { opacity: 0, y: 50 },
+    animate: { opacity: 1, y: 0 },
+    whileHover: { y: -5 }
+  }), []);
+
+  const contentVariants = useMemo(() => ({
+    initial: { opacity: 0, height: 0 },
+    animate: { opacity: 1, height: "auto" },
+    exit: { opacity: 0, height: 0 }
+  }), []);
 
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={cardVariants.initial}
+      animate={cardVariants.animate}
+      whileHover={cardVariants.whileHover}
       transition={{ 
         duration: 0.6, 
         delay: index * 0.1,
         type: "spring",
         stiffness: 100
       }}
-      whileHover={{ y: -5 }}
       className={`mb-3 sm:mb-4 lg:mb-6 desktop-hover-lift ${
         isSelected ? 'ring-4 ring-amber-500 ring-opacity-50 scale-105' : ''
       }`}
@@ -120,13 +144,16 @@ export function MythologyCard({ item, index, isSelected, isSaved = false, onSave
                 className="relative w-20 h-20 sm:w-24 sm:h-24 lg:w-32 lg:h-32 flex-shrink-0 group self-center sm:self-auto"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-400 to-blue-400 rounded-lg opacity-0 group-hover:opacity-20 transition-opacity duration-600"></div>
-                <img
+                <OptimizedImage
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-full object-cover rounded-lg transition-transform duration-600 group-hover:scale-105 shadow-lg"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = '/logo.svg';
+                  width={128}
+                  height={128}
+                  className="rounded-lg shadow-lg"
+                  onError={() => {
+                    // Fallback to logo if image fails to load
+                    const target = document.querySelector(`img[src="${item.image}"]`) as HTMLImageElement;
+                    if (target) target.src = '/logo.svg';
                   }}
                 />
               </motion.div>
@@ -232,7 +259,7 @@ export function MythologyCard({ item, index, isSelected, isSaved = false, onSave
                   </motion.div>
                 )}
                 
-                {item.related && item.related.length > 0 && (
+                {relatedItems.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -241,15 +268,11 @@ export function MythologyCard({ item, index, isSelected, isSaved = false, onSave
                   >
                     <h4 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base transition-colors duration-600">İlişkili Figürler</h4>
                     <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                      {item.related.map((related, idx) => {
-                        const relatedItem = greekMythologyData.find(char => char.id === related);
-                        // Sadece ilişkili olan diğer karakterleri göster - mevcut karakteri gösterme
-                        if (!relatedItem) {
-                          return null;
-                        }
+                      {relatedItems.map((related, idx) => {
+                        if (!related) return null;
                         return (
                           <motion.div
-                            key={idx}
+                            key={related.id}
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.3 + idx * 0.05 }}
@@ -259,9 +282,9 @@ export function MythologyCard({ item, index, isSelected, isSaved = false, onSave
                             <Badge 
                               variant="outline" 
                               className="text-xs border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-600 cursor-pointer flex items-center gap-1 group"
-                              onClick={() => handleRelatedClick(related)}
+                              onClick={() => handleRelatedClick(related.id)}
                             >
-                              <span>{related}</span>
+                              <span>{related.title}</span>
                               <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                             </Badge>
                           </motion.div>

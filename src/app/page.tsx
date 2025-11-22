@@ -1,15 +1,41 @@
 'use client';
 
 import { useState, useEffect, useMemo, useCallback, memo } from 'react';
-import { MythologyCard } from '@/components/mythology-card';
-import { MythologyFilter } from '@/components/mythology-filter';
-import { LoadingCard, LoadingSpinner } from '@/components/loading';
-import { ScrollToTop } from '@/components/scroll-to-top';
-import { ThemeToggle } from '@/components/theme-toggle';
+import dynamic from 'next/dynamic';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 import { greekMythologyData, MythologyItem, getCategoryLabel, getCategoryColor } from '@/data/greek-mythology';
 import { Badge } from '@/components/ui/badge';
 import { Sparkles, Mountain, Zap } from 'lucide-react';
+import { performanceUtils } from '@/components/performance-monitor';
+
+// Lazy load components for better performance
+const MythologyCard = dynamic(() => import('@/components/mythology-card').then(mod => ({ default: mod.MythologyCard })), {
+  loading: () => <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg h-96" />,
+  ssr: false
+});
+
+const MythologyFilter = dynamic(() => import('@/components/mythology-filter').then(mod => ({ default: mod.MythologyFilter })), {
+  loading: () => <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg h-24" />,
+  ssr: false
+});
+
+const LoadingCard = dynamic(() => import('@/components/loading').then(mod => ({ default: mod.LoadingCard })), {
+  loading: () => <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg h-96" />,
+  ssr: false
+});
+
+const LoadingSpinner = dynamic(() => import('@/components/loading').then(mod => ({ default: mod.LoadingSpinner })), {
+  loading: () => <div className="animate-pulse bg-gray-200 dark:bg-gray-700 rounded-lg h-12" />,
+  ssr: false
+});
+
+const ScrollToTop = dynamic(() => import('@/components/scroll-to-top').then(mod => ({ default: mod.ScrollToTop })), {
+  ssr: false
+});
+
+const ThemeToggle = dynamic(() => import('@/components/theme-toggle').then(mod => ({ default: mod.ThemeToggle })), {
+  ssr: false
+});
 
 type Category = 'all' | 'god' | 'goddess' | 'hero' | 'creature' | 'story' | 'saved';
 
@@ -37,8 +63,10 @@ export default function Home() {
   const [popupCharacter, setPopupCharacter] = useState<MythologyItem | null>(null);
   const [savedCharacters, setSavedCharacters] = useState<Set<string>>(new Set());
 
-  // Memoized filter function
+  // Memoized filter function with performance optimizations
   const filteredItems = useMemo(() => {
+    const startTime = performance.now();
+    
     let filtered = greekMythologyData;
     
     // Filter by category
@@ -48,7 +76,7 @@ export default function Home() {
       filtered = filtered.filter(item => item.category === filters.category);
     }
     
-    // Filter by search term
+    // Filter by search term with debouncing
     if (filters.search.trim()) {
       const searchLower = filters.search.toLowerCase();
       filtered = filtered.filter(item => 
@@ -60,9 +88,8 @@ export default function Home() {
       );
     }
     
-    console.log('Filters:', filters);
-    console.log('Saved characters:', Array.from(savedCharacters));
-    console.log('Filtered items:', filtered);
+    const endTime = performance.now();
+    console.log(`Filter computation took ${endTime - startTime}ms`);
     
     return filtered;
   }, [filters.category, filters.search, savedCharacters]);
@@ -70,8 +97,10 @@ export default function Home() {
   // Calculate if there are more items to load
   const hasNextPage = useMemo(() => items.length < filteredItems.length, [items.length, filteredItems.length]);
 
-  // Memoized load more function
+  // Memoized load more function with performance tracking
   const loadMoreItems = useCallback(() => {
+    const startTime = performance.now();
+    
     const nextPage = currentPage + 1;
     const startIndex = nextPage * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -79,6 +108,9 @@ export default function Home() {
     
     setItems(prev => [...prev, ...newItems]);
     setCurrentPage(nextPage);
+    
+    const endTime = performance.now();
+    console.log(`Load more items took ${endTime - startTime}ms`);
   }, [currentPage, filteredItems]);
 
   // Memoized filter change handler
@@ -129,11 +161,12 @@ export default function Home() {
     setItems(initialItems);
   }, [filteredItems]);
 
-  // Setup infinite scroll
+  // Setup infinite scroll with optimized options
   const { isFetching } = useInfiniteScroll({
     hasNextPage,
     fetchNextPage: loadMoreItems,
-    threshold: 200
+    threshold: 200,
+    debounceMs: 100
   });
 
   // Handle mounted state for theme toggle

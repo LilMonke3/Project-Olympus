@@ -75,17 +75,6 @@ export default function Home() {
     setFilters(newFilters);
   }, []);
 
-  // Memoized character navigation handler
-  const handleNavigateToCharacter = useCallback((characterId: string, character: MythologyItem) => {
-    setFilters({
-      category: 'all',
-      search: character.title
-    });
-    
-    // Scroll to top smoothly
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
-
   // Reset items when filters change
   useEffect(() => {
     setItems([]);
@@ -110,7 +99,19 @@ export default function Home() {
   useEffect(() => {
     const handleNavigateEvent = (event: CustomEvent) => {
       const { characterId, character } = event.detail;
-      handleNavigateToCharacter(characterId, character);
+      
+      // Sadece tıklanan karakteri göster - tüm filtrelemeyi sıfırla
+      setFilters({
+        category: 'all',
+        search: character.title
+      });
+      
+      // Mevcut item'ları temizle ve sadece bu karakteri göster
+      setItems([]);
+      setCurrentPage(0);
+      
+      // Scroll to top smoothly
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     // Add event listener
@@ -120,7 +121,7 @@ export default function Home() {
     return () => {
       window.removeEventListener('navigateToCharacter', handleNavigateEvent as EventListener);
     };
-  }, [handleNavigateToCharacter]); // handleNavigateToCharacter'e bağımlı
+  }, []); // Boş dependency array - sadece ilk kurulum
 
   // Handle URL hash for direct navigation
   useEffect(() => {
@@ -128,10 +129,18 @@ export default function Home() {
     if (hash) {
       const character = greekMythologyData.find(item => item.id === hash);
       if (character) {
-        handleNavigateToCharacter(hash, character);
+        // Sadece bu karakteri göster
+        setFilters({
+          category: 'all',
+          search: character.title
+        });
+        
+        // Mevcut item'ları temizle
+        setItems([]);
+        setCurrentPage(0);
       }
     }
-  }, [handleNavigateToCharacter]); // handleNavigateToCharacter'e bağımlı
+  }, []); // Sadece ilk yüklemede çalışsın
 
   return (
     <div className="min-h-screen gradient-bg transition-all duration-400 relative overflow-hidden">

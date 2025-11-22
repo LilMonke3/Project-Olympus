@@ -22,17 +22,8 @@ export function MythologyCard({ item, index, isSelected, isSaved = false, onSave
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(isSaved);
-  const [enhancedStory, setEnhancedStory] = useState(item.fullStory);
   const cardRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-
-  // Load enhanced story from localStorage on mount
-  useEffect(() => {
-    const enhancedStories = JSON.parse(localStorage.getItem('enhancedStories') || '{}');
-    if (enhancedStories[item.id]) {
-      setEnhancedStory(enhancedStories[item.id]);
-    }
-  }, [item.id]);
 
   const handleLike = () => setIsLiked(!isLiked);
   const handleBookmark = () => {
@@ -212,7 +203,7 @@ export function MythologyCard({ item, index, isSelected, isSaved = false, onSave
                   className="prose prose-sm max-w-none dark:prose-invert"
                 >
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line text-sm sm:text-base transition-colors duration-600">
-                    {enhancedStory}
+                    {item.fullStory}
                   </p>
                 </motion.div>
                 

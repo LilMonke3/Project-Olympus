@@ -9,7 +9,8 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { useInfiniteScroll } from '@/hooks/use-infinite-scroll';
 import { greekMythologyData, MythologyItem, getCategoryLabel, getCategoryColor } from '@/data/greek-mythology';
 import { Badge } from '@/components/ui/badge';
-import { Sparkles, Mountain, Zap } from 'lucide-react';
+import { Sparkles, Mountain, Zap, Settings } from 'lucide-react';
+import { StoryEnhancer } from '@/components/story-enhancer';
 
 type Category = 'all' | 'god' | 'goddess' | 'hero' | 'creature' | 'story' | 'saved';
 
@@ -36,10 +37,12 @@ export default function Home() {
   const [showPopup, setShowPopup] = useState(false);
   const [popupCharacter, setPopupCharacter] = useState<MythologyItem | null>(null);
   const [savedCharacters, setSavedCharacters] = useState<Set<string>>(new Set());
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
 
   // Memoized filter function
   const filteredItems = useMemo(() => {
     let filtered = greekMythologyData;
+    const enhancedStories = JSON.parse(localStorage.getItem('enhancedStories') || '{}');
     
     // Filter by category
     if (filters.category === 'saved') {
@@ -51,13 +54,14 @@ export default function Home() {
     // Filter by search term
     if (filters.search.trim()) {
       const searchLower = filters.search.toLowerCase();
-      filtered = filtered.filter(item => 
-        item.title.toLowerCase().includes(searchLower) ||
-        item.description.toLowerCase().includes(searchLower) ||
-        item.fullStory.toLowerCase().includes(searchLower) ||
-        item.attributes?.some(attr => attr.toLowerCase().includes(searchLower)) ||
-        item.powers?.some(power => power.toLowerCase().includes(searchLower))
-      );
+      filtered = filtered.filter(item => {
+        const storyToSearch = enhancedStories[item.id] || item.fullStory;
+        return item.title.toLowerCase().includes(searchLower) ||
+          item.description.toLowerCase().includes(searchLower) ||
+          storyToSearch.toLowerCase().includes(searchLower) ||
+          item.attributes?.some(attr => attr.toLowerCase().includes(searchLower)) ||
+          item.powers?.some(power => power.toLowerCase().includes(searchLower));
+      });
     }
     
     console.log('Filters:', filters);
@@ -99,6 +103,15 @@ export default function Home() {
       localStorage.setItem('savedCharacters', JSON.stringify(Array.from(newSet)));
       return newSet;
     });
+  }, []);
+
+  // Handle story update
+  const handleStoryUpdate = useCallback((characterId: string, newStory: string) => {
+    // Update the character's story in the data
+    const characterIndex = greekMythologyData.findIndex(item => item.id === characterId);
+    if (characterIndex !== -1) {
+      greekMythologyData[characterIndex].fullStory = newStory;
+    }
   }, []);
 
   // Load saved characters from localStorage on mount
@@ -206,7 +219,16 @@ export default function Home() {
               </div>
             </div>
             {mounted && (
-              <ThemeToggle />
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setShowAdminPanel(!showAdminPanel)}
+                  className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                  title="Admin Paneli"
+                >
+                  <Settings className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                </button>
+                <ThemeToggle />
+              </div>
             )}
           </div>
           <p className="text-gray-600 dark:text-gray-300 transition-colors duration-400 text-center text-sm sm:text-base mt-2 sm:mt-0">
@@ -217,6 +239,13 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8 relative">
+        {/* Admin Panel */}
+        {showAdminPanel && (
+          <div className="mb-8">
+            <StoryEnhancer onStoryUpdated={handleStoryUpdate} />
+          </div>
+        )}
+
         {/* Filter */}
         <div className="desktop-container">
           <MemoizedMythologyFilter
@@ -359,7 +388,10 @@ export default function Home() {
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Tam Hikaye</h3>
                 <div className="prose prose-sm max-w-none dark:prose-invert">
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
-                    {popupCharacter.fullStory}
+                    {(() => {
+                      const enhancedStories = JSON.parse(localStorage.getItem('enhancedStories') || '{}');
+                      return enhancedStories[popupCharacter.id] || popupCharacter.fullStory;
+                    })()}
                   </p>
                 </div>
               </div>

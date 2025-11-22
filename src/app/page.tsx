@@ -100,13 +100,13 @@ export default function Home() {
     const handleNavigateEvent = (event: CustomEvent) => {
       const { characterId, character } = event.detail;
       
-      // Sadece tıklanan karakteri göster - tüm filtrelemeyi sıfırla
+      // Sadece tıklanan karakteri göster - diğer karakterleri etkileme
       setFilters({
         category: 'all',
         search: character.title
       });
       
-      // Mevcut item'ları temizle ve sadece bu karakteri göster
+      // Mevcut item'ları temizle
       setItems([]);
       setCurrentPage(0);
       

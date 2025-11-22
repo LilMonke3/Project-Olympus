@@ -258,7 +258,7 @@ export function MythologyCard({ item, index, isSelected }: MythologyCardProps) {
                             </Badge>
                           </motion.div>
                         );
-                      }).filter(Boolean)} // null veya undefined değerlerini filtrele
+                      })}
                     </div>
                   </motion.div>
                 )}

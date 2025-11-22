@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Filter, X, Search, TrendingUp } from 'lucide-react';
 
-type Category = 'all' | 'god' | 'goddess' | 'hero' | 'creature' | 'story';
+type Category = 'all' | 'god' | 'goddess' | 'hero' | 'creature' | 'story' | 'saved';
 
 interface FilterOptions {
   category: Category;
@@ -23,6 +23,7 @@ interface MythologyFilterProps {
 
 const categories: { value: Category; label: string; color: string; icon: string }[] = [
   { value: 'all', label: 'Tümü', color: 'bg-gradient-to-r from-gray-500 to-gray-600 text-white', icon: '🌟' },
+  { value: 'saved', label: 'Kaydedilenler', color: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white', icon: '💾' },
   { value: 'god', label: 'Tanrılar', color: 'bg-gradient-to-r from-blue-500 to-blue-600 text-white', icon: '⚡' },
   { value: 'goddess', label: 'Tanrıçalar', color: 'bg-gradient-to-r from-pink-500 to-pink-600 text-white', icon: '👸' },
   { value: 'hero', label: 'Kahramanlar', color: 'bg-gradient-to-r from-amber-500 to-amber-600 text-white', icon: '🗡️' },
@@ -166,7 +167,7 @@ export function MythologyFilter({ filters, onFiltersChange, itemCount, totalItem
                   Kategori
                 </h4>
               </motion.div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2 sm:gap-3 lg:gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
                 {categories.map((cat, index) => (
                   <motion.div
                     key={cat.value}

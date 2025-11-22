@@ -11,7 +11,7 @@ import { greekMythologyData, MythologyItem, getCategoryLabel, getCategoryColor }
 import { Badge } from '@/components/ui/badge';
 import { Sparkles, Mountain, Zap } from 'lucide-react';
 
-type Category = 'all' | 'god' | 'goddess' | 'hero' | 'creature' | 'story';
+type Category = 'all' | 'god' | 'goddess' | 'hero' | 'creature' | 'story' | 'saved';
 
 interface FilterOptions {
   category: Category;
@@ -35,13 +35,16 @@ export default function Home() {
   const [selectedCharacterId, setSelectedCharacterId] = useState<string | null>(null);
   const [showPopup, setShowPopup] = useState(false);
   const [popupCharacter, setPopupCharacter] = useState<MythologyItem | null>(null);
+  const [savedCharacters, setSavedCharacters] = useState<Set<string>>(new Set());
 
   // Memoized filter function
   const filteredItems = useMemo(() => {
     let filtered = greekMythologyData;
     
     // Filter by category
-    if (filters.category !== 'all') {
+    if (filters.category === 'saved') {
+      filtered = filtered.filter(item => savedCharacters.has(item.id));
+    } else if (filters.category !== 'all') {
       filtered = filtered.filter(item => item.category === filters.category);
     }
     
@@ -58,10 +61,11 @@ export default function Home() {
     }
     
     console.log('Filters:', filters);
+    console.log('Saved characters:', Array.from(savedCharacters));
     console.log('Filtered items:', filtered);
     
     return filtered;
-  }, [filters.category, filters.search]);
+  }, [filters.category, filters.search, savedCharacters]);
 
   // Calculate if there are more items to load
   const hasNextPage = useMemo(() => items.length < filteredItems.length, [items.length, filteredItems.length]);
@@ -80,6 +84,34 @@ export default function Home() {
   // Memoized filter change handler
   const handleFiltersChange = useCallback((newFilters: FilterOptions) => {
     setFilters(newFilters);
+  }, []);
+
+  // Handle save/unsave character
+  const handleSaveCharacter = useCallback((characterId: string) => {
+    setSavedCharacters(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(characterId)) {
+        newSet.delete(characterId);
+      } else {
+        newSet.add(characterId);
+      }
+      // Save to localStorage
+      localStorage.setItem('savedCharacters', JSON.stringify(Array.from(newSet)));
+      return newSet;
+    });
+  }, []);
+
+  // Load saved characters from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('savedCharacters');
+    if (saved) {
+      try {
+        const savedIds = JSON.parse(saved);
+        setSavedCharacters(new Set(savedIds));
+      } catch (error) {
+        console.error('Error loading saved characters:', error);
+      }
+    }
   }, []);
 
   // Reset items when filters change
@@ -203,6 +235,8 @@ export default function Home() {
                 item={item} 
                 index={index} 
                 isSelected={item.id === selectedCharacterId}
+                isSaved={savedCharacters.has(item.id)}
+                onSaveCharacter={handleSaveCharacter}
               />
             </div>
           ))}

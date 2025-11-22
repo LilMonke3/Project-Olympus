@@ -14,17 +14,25 @@ interface MythologyCardProps {
   item: MythologyItem;
   index: number;
   isSelected?: boolean;
+  isSaved?: boolean;
+  onSaveCharacter?: (characterId: string) => void;
 }
 
-export function MythologyCard({ item, index, isSelected }: MythologyCardProps) {
+export function MythologyCard({ item, index, isSelected, isSaved = false, onSaveCharacter }: MythologyCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(isSaved);
   const cardRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   const handleLike = () => setIsLiked(!isLiked);
-  const handleBookmark = () => setIsBookmarked(!isBookmarked);
+  const handleBookmark = () => {
+    const newBookmarkState = !isBookmarked;
+    setIsBookmarked(newBookmarkState);
+    if (onSaveCharacter) {
+      onSaveCharacter(item.id);
+    }
+  };
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({

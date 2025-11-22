@@ -229,6 +229,10 @@ export function MythologyCard({ item, index }: MythologyCardProps) {
                     <div className="flex flex-wrap gap-1.5 sm:gap-2">
                       {item.related.map((related, idx) => {
                         const relatedItem = greekMythologyData.find(char => char.id === related);
+                        // Sadece ilişkili olan diğer karakterleri göster - mevcut karakteri gösterme
+                        if (!relatedItem) {
+                          return null;
+                        }
                         return (
                           <motion.div
                             key={idx}
@@ -248,7 +252,7 @@ export function MythologyCard({ item, index }: MythologyCardProps) {
                             </Badge>
                           </motion.div>
                         );
-                      })}
+                      }).filter(Boolean)} // null veya undefined değerlerini filtrele
                     </div>
                   </motion.div>
                 )}
